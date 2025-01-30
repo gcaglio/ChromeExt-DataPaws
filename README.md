@@ -23,6 +23,24 @@ Modify `background.js` to insert your API key:
 const dd_api = "YOUR_DATADOG_API_KEY";
 ```
 
+## Collected Metrics
+The extension collects and sends the following metrics:
+* `datapaws.chrome.pageLoadTime`: Total page load time.
+* `datapaws.chrome.domContentLoadTime`: Time taken to load the DOM.
+* `datapaws.chrome.renderTime`: Time taken to render the page.
+* `datapaws.chrome.totalBlockingTime`: Total blocking time.
+* `datapaws.chrome.usedJSHeapSize`: Used JavaScript heap memory.
+* `datapaws.chrome.totalJSHeapSize`: Total JavaScript heap memory.
+* `datapaws.chrome.consoleErrors`: Number of console errors.
+
+## All metrics include additional tags such as:
+* `site_fqdn`: Hostname of the site
+* `resolution`: Screen resolution.
+* `browser`: Browser user-agent.
+* `hostname`: Device name.
+* `chrome_deviceid` : a random, one time generated deviceId that persist in the local browser storage, to allow a "per browser instance" grouping, to allow event correlation and problem determination.
+
+
 ## Usage
 1. Install the extension as described above.
 2. Browse normally; the extension collects data in the background.
