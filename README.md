@@ -1,6 +1,10 @@
 # Overview
 Datapaws Monitoring Extension is a Chrome extension that collects console messages, page load times, and render timings, sending them to Datadog for monitoring and analysis.
 
+Every metric is sent as custom-metric.
+
+You could easily use this extention on a wide number of browsers with a Datadog free account (remember you've only 1day of data retention).
+
 ## Features
 - Tracks page load metrics using `PerformanceNavigationTiming`.
 - Captures JavaScript console errors and logs.
