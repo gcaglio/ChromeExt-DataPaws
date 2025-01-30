@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Datapaws Monitoring Extension",
+  "version": "1.0",
+  "description": "Collect console messages, page load times, and render timings, and send them to datadog.",
+  "permissions": ["scripting", "activeTab", "webNavigation","storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["inject.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
