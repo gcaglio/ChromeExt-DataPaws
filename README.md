@@ -5,6 +5,8 @@ Every metric is sent as custom-metric.
 
 You could easily use this extention on a wide number of browsers with a Datadog free account (remember you've only 1day of data retention).
 
+Official link to MDN documentation : https://developer.mozilla.org/en-US/docs/Web/API/Performance_API/Navigation_timing
+
 ## Features
 - Tracks page load metrics using `PerformanceNavigationTiming`.
 - Captures JavaScript console errors and logs.
