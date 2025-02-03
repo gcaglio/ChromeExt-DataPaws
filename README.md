@@ -5,7 +5,11 @@ Every metric is sent as custom-metric.
 
 You could easily use this extention on a wide number of browsers with a Datadog free account (remember you've only 1day of data retention).
 
-Official link to MDN documentation : https://developer.mozilla.org/en-US/docs/Web/API/Performance_API/Navigation_timing
+This extension is based on the official link to MDN documentation of the different steps : https://developer.mozilla.org/en-US/docs/Web/API/Performance_API/Navigation_timing
+
+![MDN Performance API - Navigation timing](https://github.com/gcaglio/ChromeExt-DataPaws/blob/main/doc/timestamp-diagram.png?raw=true)
+
+
 
 ## Features
 - Tracks page load metrics using `PerformanceNavigationTiming`.
@@ -63,6 +67,20 @@ The extension collects and sends the following metrics:
 - **CORS issues**: Ensure your enterprise network allows connections to `api.datadoghq.com`.
 - **Extension not loading**: Check `chrome://extensions/` for errors.
 - **No data in Datadog**: Verify your API key in `background.js`.
+
+
+## Datadog dashboard
+You could easily test this extension with a Free Datadog account, to measure the index(es) size, storage needed, metric numerosity and so on, prior to switch to a payed account, to avoid unexpected costs.
+
+If it's ok for you to live with a 1-day only metric retention, you can continue to use the free account without issues, reducing costs.
+
+In the `doc/dd_dashboards` folder you can find a Datadog dashboard example. Here some graphs:
+
+![Datapaws dashboard sample graphs](https://github.com/gcaglio/ChromeExt-DataPaws/blob/main/doc/datapaws_dashboard_graphs.png?raw=true)
+
+
+
+
 
 ## License
 This project is licensed under the MIT License.
