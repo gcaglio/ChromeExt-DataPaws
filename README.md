@@ -41,7 +41,7 @@ The extension collects and sends the following metrics:
 * `datapaws.chrome.totalBlockingTime`: Total blocking time.
 * `datapaws.chrome.usedJSHeapSize`: Used JavaScript heap memory.
 * `datapaws.chrome.totalJSHeapSize`: Total JavaScript heap memory.
-* `datapaws.chrome.consoleErrors`: Number of console errors.
+* `datapaws.chrome.consoleError`: console, window and "unhandled promise rejections" errors.
 
 ## All metrics include additional tags such as:
 * `site_fqdn`: Hostname of the site
@@ -50,6 +50,10 @@ The extension collects and sends the following metrics:
 * `hostname`: Device name.
 * `chrome_deviceid` : a random, one time generated deviceId that persist in the local browser storage, to allow a "per browser instance" grouping, to allow event correlation and problem determination.
 
+## Error messages include additional tags such as
+* `err_message` : the error message string
+* `err_source` : the source of the error (eg: the fqdn of the js that thrown the error,
+*	`err_type` : the error type or a generic "ERR_UNKNOWN_TYPE"
 
 ## Usage
 1. Install the extension as described above.
@@ -62,6 +66,7 @@ The extension collects and sends the following metrics:
 - `content.js` - Injects `inject.js` into pages.
 - `manifest.json` - Chrome extension configuration.
 - `doc/timestamp-diagram.*` - Documentation diagrams.
+- `doc/dd_dashboards/*` - json export of effective and working Datadog dashboards
 
 ## Troubleshooting
 - **CORS issues**: Ensure your enterprise network allows connections to `api.datadoghq.com`.
