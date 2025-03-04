@@ -10,6 +10,13 @@ This extension is based on the official link to MDN documentation of the differe
 ![MDN Performance API - Navigation timing](https://github.com/gcaglio/ChromeExt-DataPaws/blob/main/doc/timestamp-diagram.png?raw=true)
 
 
+## Tested on
+Chrome on Windows 10
+
+Chrome on Windows 11
+
+Chromebook
+
 
 ## Features
 - Tracks page load metrics using `PerformanceNavigationTiming`.
@@ -24,14 +31,9 @@ This extension is based on the official link to MDN documentation of the differe
 4. Click "Load unpacked" and select the folder containing the extension files.
 
 ## Configuration
-Ensure you have a Datadog API key. The extension sends metrics to:
-```
-https://api.datadoghq.com/api/v1/series
-```
-Modify `background.js` to insert your API key:
-```js
-const dd_api = "YOUR_DATADOG_API_KEY";
-```
+You need to configure the extention to send the metrics to the correct Datadog URI, with your API-KEY. 
+Go to the "options" page of the extention and fill the fields with proper value matching your Datadog account.
+![Datapaws extension options configuration](https://github.com/gcaglio/ChromeExt-DataPaws/blob/main/doc/datapaws_options.png?raw=true)
 
 ## Collected Metrics
 The extension collects and sends the following metrics:
@@ -69,9 +71,10 @@ The extension collects and sends the following metrics:
 - `doc/dd_dashboards/*` - json export of effective and working Datadog dashboards
 
 ## Troubleshooting
+- First IT resolution: completely close Chrome browser and open it again. Sometimes the extension need to be reinitialized to reload your custom parameters.
 - **CORS issues**: Ensure your enterprise network allows connections to `api.datadoghq.com`.
 - **Extension not loading**: Check `chrome://extensions/` for errors.
-- **No data in Datadog**: Verify your API key in `background.js`.
+- **No data in Datadog**: Verify your Datadog URL and API-key in the options page of the extension, then close and re-open chromme to ensure proper parameter reloading.
 
 
 ## Datadog dashboard
