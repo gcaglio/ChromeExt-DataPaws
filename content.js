@@ -28,5 +28,15 @@
 		}
 	});
 
+
+	window.addEventListener("message", (event) => {
+		if (event.data.type === "getDdHostname") {
+			chrome.runtime.sendMessage({ type: "getDdHostname" }, (response) => {
+				window.postMessage({ type: "DdHostnameResponse", dd_hostname: response?.config_dd_hostname || "content-unknown-dd-hostname" }, "*");
+			});
+		}
+	});
+
+
   
 })();

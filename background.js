@@ -1,3 +1,29 @@
+// background.js
+let dd_hostname = "3_datapaws.unique.host.local";
+
+// Recupera la variabile da chrome.storage.sync e la salva globalmente
+chrome.storage.sync.get(['dd_hostname'], function(result) {
+    dd_hostname = result.dd_hostname || "datapaws.unique.host.local";
+});
+
+
+
+// ---- dd_hostname ----
+function getDdHostname() {
+    return dd_hostname;
+}
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === "getDdHostname") {
+        sendResponse({ config_dd_hostname: getDdHostname() || "background-unknown-device" });
+        return true; // Importante per consentire la risposta asincrona
+    }
+});
+
+
+
+// ---- device id ----
+
 function generateDeviceId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -33,26 +59,28 @@ chrome.runtime.onInstalled.addListener(() => {
     console.log("Datapaws Monitoring Extension installed.");
 });
 
+
 // Listener to receive data from content script and send to endpoint
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {  
+  if (message.type === "monitoringData") {  
+    chrome.storage.sync.get(['dd_url', 'dd_api'], (data) => {  
+      const baseUrl = data.dd_url || "https://api.datadoghq.eu";  
+      const endpointSuffix = "/api/v1/series";  
+      const dd_url = baseUrl.endsWith(endpointSuffix) ? baseUrl : baseUrl + endpointSuffix;  
+      const dd_api = data.dd_api || "xyz";  
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-
-
-    if (message.type === "monitoringData") {
-        dd_url = "https://api.datadoghq.com/api/v1/series";
-        dd_api = "XXXXXXXXX<changeme>XXXXXXXXX";
-
-        fetch(dd_url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "DD-API-KEY": dd_api
-            },
-           body: JSON.stringify(message.data)
-        })
-      .then(response => response.json())
-      .then(data => console.log("Data successfully sent:", data))
-      .catch(error => console.error("Error sending data:", error));
-  }
+      fetch(dd_url, {  
+        method: "POST",  
+        headers: {  
+          "Content-Type": "application/json",  
+          "DD-API-KEY": dd_api  
+        },  
+        body: JSON.stringify(message.data)  
+      })  
+      .then(response => response.json())  
+      .then(data => console.log("Data successfully sent:", data))  
+      .catch(error => console.error("Error sending data:", error));  
+    });  
+  }  
 });
 

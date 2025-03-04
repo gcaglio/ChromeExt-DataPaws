@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Opzioni Datapaws Chrome extension</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        header img {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+			border-radius: 5px;
+        }
+        h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .description {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+	    input[type="password"] {
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+	
+        button {
+            margin-top: 20px;
+			margin-left:auto;
+            padding: 10px;
+            background-color: #632BA6;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+			width:30%;
+			
+        }
+        #status {
+            margin-top: 15px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="datapaws_extension.png" alt="DataPaws Logo">
+        <h1>Datapaws Chrome Extension</h1>
+    </header>
+    <div class="description">
+	    Datapaws Monitoring Extension is a Chrome extension that collects console messages, page load times, and render timings, sending them to Datadog for monitoring and analysis.
+		<br/>
+		Every metric is sent as custom-metric.
+			
+		
+		<br/><br/>
+	    <b>GitHub project page :</b> https://github.com/gcaglio/ChromeExt-DataPaws	
+		<br/><br/>
+    The extension collects and sends the following metrics:
+	<ul>
+	<li><b>datapaws.chrome.pageLoadTime</b> : Total page load time.</li>
+	<li><b>datapaws.chrome.domContentLoadTime</b> : Time taken to load the DOM.</li>
+	<li><b>datapaws.chrome.renderTime</b>: Time taken to render the page.</li>
+	<li><b>datapaws.chrome.totalBlockingTime</b> : Total blocking time.</li>
+	<li><b>datapaws.chrome.usedJSHeapSize</b> : Used JavaScript heap memory.</li>
+	<li><b>datapaws.chrome.totalJSHeapSize</b> : Total JavaScript heap memory.</li>
+	<li><b>datapaws.chrome.consoleError</b> : Console, window and "unhandled promise rejections" errors.</li>
+	</ul>
+	
+<br/>
+All metrics include additional tags such as:
+<ul>
+<li><b>site_fqdn</b> : Hostname of the site.</li>
+<li><b>resolution</b> : Screen resolution.</li>
+<li><b>browser</b> : Browser user-agent.</li>
+<li><b>hostname</b> : Device name.</li>
+<li><b>chrome_deviceid</b> : a random, one time generated deviceId that persist in the local browser storage, to allow a "per browser instance" grouping, to allow event correlation and problem determination.</li>
+</ul>
+	
+	<br/>
+		To allow the extension to send data to your Datadog account, you need to configure: <br>
+		<ul>
+		  <li>Datadog API URL. Eg: https://api.datadoghq.com, https://api.datadoghq.eu, etc</li>
+		  <li>Datadog API key. You can get it logging in into your account, hovering onto your profile icon (lower left) and select Organization>Api Keys</li>
+		  <li>Hostname. You need to define one 'hostname' to correlate all the metrics.</li>
+		</ul>
+
+		
+    </div>
+    <form id="configForm">
+        <label for="dd_url">Datadog URL
+            <span title="Your Datadog api url, like https://api.datadoghq.eu, please see Datadog documentation">ℹ️</span>
+        </label>
+        <input type="text" id="dd_url" placeholder="https://api.datadoghq.com">
+
+        <label for="dd_api">Datadog API Key
+            <span title="Your Datadog account API Key">ℹ️</span>
+        </label>
+        <input type="password" id="dd_api" placeholder="Inserisci la tua API Key">
+
+        <label for="dd_hostname">Datadog Hostname
+            <span title="Custom hostname, default to datapaws.unique.host.local.">ℹ️</span>
+        </label>
+        <input type="text" id="dd_hostname" placeholder="datapaws.unique.host.local">
+
+        <button type="submit" >Save</button>
+        <div id="status"></div>
+    </form>
+
+    <script src="options.js"></script>
+   
+   
+</body>
+</html>

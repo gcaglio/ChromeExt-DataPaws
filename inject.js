@@ -1,6 +1,22 @@
 (async () => {
 	
-	
+
+	const getDdHostname = () => {
+		return new Promise((resolve) => {
+			window.postMessage({ type: "getDdHostname" }, "*");
+
+			window.addEventListener("message", function handler(event) {
+				if (event.data.type === "DdHostnameResponse") {
+					window.removeEventListener("message", handler);
+					resolve(event.data.dd_hostname || "unknown-dd-hostname.host.local");
+				}
+			});
+		});
+	};		
+
+
+
+		
     const getDeviceId = () => {
         return new Promise((resolve) => {
             window.postMessage({ type: "getDeviceId" }, "*");
@@ -17,6 +33,8 @@
     const sendErrorMetric = async (errorData) => {
 		
         const deviceId = await getDeviceId();
+		const dd_hostname = await getDdHostname();
+		
         const epochTime = Math.floor(Date.now() / 1000);
         const tags = [
             "env:prod",
@@ -37,7 +55,7 @@
                     metric: "datapaws.chrome.consoleError",
                     points: [[epochTime, 1]],
                     type: "count",
-                    host: "datapaws.unique.host.local",
+                    host: dd_hostname,
                     tags
                 }
             ]
@@ -86,11 +104,12 @@
    
 	
     const collectMetrics = async () => {
+		
         const entries = performance.getEntriesByType("navigation")[0] || {};
         const now = Date.now();
         const epochTime = Math.floor(now / 1000); // Current time in epoch format
         const deviceId = await getDeviceId();
-		
+		const dd_hostname = await getDdHostname();
 		
         const performanceData = {
             loadTime: Math.max(0, entries.loadEventEnd - entries.startTime),
@@ -134,49 +153,53 @@
 			"browser:" + navigator.userAgent,
 			"chrome_deviceid:" + deviceId
 		];
+		
 
+	
+
+	
         const payload = {
             series: [
                 {
                     metric: "datapaws.chrome.pageLoadTime",
                     points: [[epochTime, performanceData.loadTime]],
                     type: "gauge",
-                    host: "datapaws.unique.host.local",
+                    host: dd_hostname,
                     tags
                 },
                 {
                     metric: "datapaws.chrome.domContentLoadTime",
                     points: [[epochTime, performanceData.domContentLoadedTime]],
                     type: "gauge",
-                    host: "datapaws.unique.host.local",
+                    host: dd_hostname,
                     tags
                 },
                 {
                     metric: "datapaws.chrome.renderTime",
                     points: [[epochTime, performanceData.renderTime]],
                     type: "gauge",
-                    host: "datapaws.unique.host.local",
+                    host: dd_hostname,
                     tags
                 },
                 {
                     metric: "datapaws.chrome.totalBlockingTime",
                     points: [[epochTime, performanceData.totalBlockingTime]],
                     type: "gauge",
-                    host: "datapaws.unique.host.local",
+                    host: dd_hostname,
                     tags
                 },
                 {
                     metric: "datapaws.chrome.usedJSHeapSize",
                     points: [[epochTime, window.performance.memory?.usedJSHeapSize || 0]],
                     type: "gauge",
-                    host: "datapaws.unique.host.local",
+                    host: dd_hostname,
                     tags
                 },
                 {
                     metric: "datapaws.chrome.totalJSHeapSize",
                     points: [[epochTime, window.performance.memory?.totalJSHeapSize || 0]],
                     type: "gauge",
-                    host: "datapaws.unique.host.local",
+                    host: dd_hostname,
                     tags
                 }
 /*				,
