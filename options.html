@@ -19,7 +19,7 @@
             width: 80px;
             height: 80px;
             margin-right: 15px;
-			border-radius: 5px;
+            border-radius: 5px;
         }
         h1 {
             font-size: 24px;
@@ -29,6 +29,24 @@
             margin-bottom: 20px;
             font-size: 14px;
             color: #555;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .warning-box strong {
+            color: #856404;
+        }
+        .info-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-size: 13px;
         }
         form {
             display: flex;
@@ -43,27 +61,40 @@
             font-size: 14px;
             margin-top: 5px;
         }
-	    input[type="password"] {
+        input[type="password"] {
             padding: 8px;
             font-size: 14px;
             margin-top: 5px;
         }
-	
+        textarea {
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 5px;
+            min-height: 60px;
+            font-family: monospace;
+        }
         button {
             margin-top: 20px;
-			margin-left:auto;
+            margin-left: auto;
             padding: 10px;
             background-color: #632BA6;
             color: white;
             border: none;
             font-size: 16px;
             cursor: pointer;
-			width:30%;
-			
+            width: 30%;
         }
         #status {
             margin-top: 15px;
             color: green;
+        }
+        .example {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-top: 5px;
+            border-left: 3px solid #632BA6;
+            font-family: monospace;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -73,44 +104,55 @@
         <h1>Datapaws Chrome Extension</h1>
     </header>
     <div class="description">
-	    Datapaws Monitoring Extension is a Chrome extension that collects console messages, page load times, and render timings, sending them to Datadog for monitoring and analysis.
-		<br/>
-		Every metric is sent as custom-metric.
-			
-		
-		<br/><br/>
-	    <b>GitHub project page :</b> https://github.com/gcaglio/ChromeExt-DataPaws	
-		<br/><br/>
-    The extension collects and sends the following metrics:
-	<ul>
-	<li><b>datapaws.chrome.pageLoadTime</b> : Total page load time.</li>
-	<li><b>datapaws.chrome.domContentLoadTime</b> : Time taken to load the DOM.</li>
-	<li><b>datapaws.chrome.renderTime</b>: Time taken to render the page.</li>
-	<li><b>datapaws.chrome.totalBlockingTime</b> : Total blocking time.</li>
-	<li><b>datapaws.chrome.usedJSHeapSize</b> : Used JavaScript heap memory.</li>
-	<li><b>datapaws.chrome.totalJSHeapSize</b> : Total JavaScript heap memory.</li>
-	<li><b>datapaws.chrome.consoleError</b> : Console, window and "unhandled promise rejections" errors.</li>
-	</ul>
-	
-<br/>
-All metrics include additional tags such as:
-<ul>
-<li><b>site_fqdn</b> : Hostname of the site.</li>
-<li><b>resolution</b> : Screen resolution.</li>
-<li><b>browser</b> : Browser user-agent.</li>
-<li><b>hostname</b> : Device name.</li>
-<li><b>chrome_deviceid</b> : a random, one time generated deviceId that persist in the local browser storage, to allow a "per browser instance" grouping, to allow event correlation and problem determination.</li>
-</ul>
-	
-	<br/>
-		To allow the extension to send data to your Datadog account, you need to configure: <br>
-		<ul>
-		  <li>Datadog API URL. Eg: https://api.datadoghq.com, https://api.datadoghq.eu, etc</li>
-		  <li>Datadog API key. You can get it logging in into your account, hovering onto your profile icon (lower left) and select Organization>Api Keys</li>
-		  <li>Hostname. You need to define one 'hostname' to correlate all the metrics.</li>
-		</ul>
-
-		
+        Datapaws Monitoring Extension is a Chrome extension that collects console messages, page load times, and render timings, sending them to Datadog for monitoring and analysis.
+        <br/>
+        Every metric is sent as custom-metric.
+        
+        <br/><br/>
+        <b>GitHub project page:</b> https://github.com/gcaglio/ChromeExt-DataPaws	
+        
+        <div class="info-box">
+            <strong>✨ New in this version:</strong> Now uses modern PerformanceObserver API for Core Web Vitals. Memory metrics have been removed as they used deprecated Chrome-only APIs.
+        </div>
+        
+        <br/>
+        The extension collects and sends the following metrics:
+        <ul>
+            <li><b>datapaws.chrome.pageLoadTime</b>: Total page load time.</li>
+            <li><b>datapaws.chrome.domContentLoadTime</b>: Time taken to load the DOM.</li>
+            <li><b>datapaws.chrome.renderTime</b>: Time taken to render the page.</li>
+            <li><b>datapaws.chrome.totalBlockingTime</b>: Total blocking time.</li>
+            <li><b>datapaws.chrome.ttfb</b>: Time to First Byte.</li>
+            <li><b>datapaws.chrome.firstContentfulPaint</b>: First Contentful Paint (FCP) - Core Web Vital.</li>
+            <li><b>datapaws.chrome.largestContentfulPaint</b>: Largest Contentful Paint (LCP) - Core Web Vital.</li>
+            <li><b>datapaws.chrome.cumulativeLayoutShift</b>: Cumulative Layout Shift (CLS) - Core Web Vital.</li>
+            <li><b>datapaws.chrome.consoleError</b>: Console, window and "unhandled promise rejections" errors.</li>
+        </ul>
+        
+        <div class="warning-box">
+            <strong>⚠️ Deprecated metrics removed:</strong> <code>usedJSHeapSize</code> and <code>totalJSHeapSize</code> have been removed as they used the deprecated <code>performance.memory</code> API which is Chrome-only and non-standard.
+        </div>
+        
+        <br/>
+        All metrics include additional tags such as:
+        <ul>
+            <li><b>site_fqdn</b>: Hostname of the site.</li>
+            <li><b>resolution</b>: Screen resolution.</li>
+            <li><b>browser</b>: Browser user-agent.</li>
+            <li><b>hostname</b>: Device name.</li>
+            <li><b>chrome_deviceid</b>: a random, one time generated deviceId that persist in the local browser storage, to allow a "per browser instance" grouping, to allow event correlation and problem determination.</li>
+            <li><b>navigation_type</b>: Type of navigation (navigate, reload, back_forward).</li>
+            <li><b>connection_type</b>: Connection type (4g, 3g, wifi, etc).</li>
+        </ul>
+        
+        <br/>
+        To allow the extension to send data to your Datadog account, you need to configure: <br>
+        <ul>
+            <li>Datadog API URL. Eg: https://api.datadoghq.com, https://api.datadoghq.eu, etc</li>
+            <li>Datadog API key. You can get it logging in into your account, hovering onto your profile icon (lower left) and select Organization>Api Keys</li>
+            <li>Hostname. You need to define one 'hostname' to correlate all the metrics.</li>
+            <li>Custom tags (optional). You can add custom tags to all metrics for better filtering and grouping.</li>
+        </ul>
     </div>
     <form id="configForm">
         <label for="dd_url">Datadog URL
@@ -128,12 +170,19 @@ All metrics include additional tags such as:
         </label>
         <input type="text" id="dd_hostname" placeholder="datapaws.unique.host.local">
 
-        <button type="submit" >Save</button>
+        <label for="dd_custom_tags">Custom Tags (Optional)
+            <span title="Add custom tags in format: tag_name=tag_value;tag_name1=tag_value1">ℹ️</span>
+        </label>
+        <textarea id="dd_custom_tags" placeholder="department=IT;environment=production;cost_center=123456;"></textarea>
+        <div class="example">
+            <strong>Example:</strong><br/>
+            department=IT;environment=production;cost_center=123456;region=EU;team=WebDev;
+        </div>
+
+        <button type="submit">Save</button>
         <div id="status"></div>
     </form>
 
     <script src="options.js"></script>
-   
-   
 </body>
 </html>
