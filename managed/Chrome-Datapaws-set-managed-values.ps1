@@ -1,4 +1,9 @@
-# ===== CONFIGURAZIONE =====
+# ===== OVERVIEW =====
+# This script will set the configuration in the registry.
+# This script does not install the extension forcily.
+# Use this script to feed configuration data and tags to the client.
+
+
 
 # CUSTOMIZE WITH CURRENT EXTENSION ID FROM WEB STORE.
 # you can find the extension ID in the URL when you select Datapaws extension from the Web Store!
