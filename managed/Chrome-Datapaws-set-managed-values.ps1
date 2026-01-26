@@ -2,7 +2,7 @@
 
 # CUSTOMIZE WITH CURRENT EXTENSION ID FROM WEB STORE.
 # you can find the extension ID in the URL when you select Datapaws extension from the Web Store!
-$chromeExtensionId = "bconhdjdcokejhjjgpinbmjofmgkpeki"
+$chromeExtensionId = "hihojofmgncccdhbhglbchhigdgbhdhp"
 
 # Parametri da passare all'estensione
 $managedConfig = @{}
