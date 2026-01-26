@@ -80,6 +80,11 @@ For enterprise deployments, you can use Chrome's managed policies via Active Dir
 }
 ```
 
+If you want to test the managed store extension configuration in the Windows Registry you can check in the ```managed``` folder.
+
+You'll found a sample Powershell script that you can customize to set all the variables in the registry and test GPO/packaged installation.
+
+
 3. Deploy via GPO to all managed Chrome browsers
 4. Users won't be able to modify centrally-managed settings
 
